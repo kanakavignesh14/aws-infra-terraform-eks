@@ -1,20 +1,10 @@
-#terraform-aws-modules → Terraform Registry organization
-
-#eks → module name
-
-#aws → provider/platform
-
-#So Terraform understands this as:
-
-#“Download the EKS module from the Terraform Registry”
-
-
 module "eks" {
-  source  = "terraform-aws-modules/eks/aws" # fetching from registry another module
+  source  = "terraform-aws-modules/eks/aws"
   version = "~> 21.0" # this is module version
 
   name               = local.common_name_suffix
-  kubernetes_version = "1.32"
+  # kubernetes_version = "1.33"
+  kubernetes_version = var.eks_version
 
   addons = {
     coredns                = {}
@@ -30,6 +20,7 @@ module "eks" {
 
   endpoint_public_access = false
   enable_cluster_creator_admin_permissions = true
+
   vpc_id                   = local.vpc_id
   subnet_ids               = local.private_subnet_ids
   control_plane_subnet_ids = local.private_subnet_ids
@@ -41,9 +32,9 @@ module "eks" {
   # EKS Managed Node Group(s)
   eks_managed_node_groups = {
     blue = {
-      
+      create = var.enable_blue
       ami_type       = "AL2023_x86_64_STANDARD"
-  
+      kubernetes_version = var.eks_nodegroup_blue_version
       instance_types = ["m5.xlarge"]
       iam_role_additional_policies  = {
         amazonEFS = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
@@ -54,18 +45,54 @@ module "eks" {
       min_size     = 2
       max_size     = 10
       desired_size = 2
+
+      # taints = {
+      #   upgrade = {
+      #     key = "upgrade"
+      #     value = "true"
+      #     effect = "NO_SCHEDULE"
+      #   }
+      # }
+
+      labels = {
+        nodegroup = "blue"
+      }
+    }
+
+    green = {
+      create = var.enable_green
+      ami_type       = "AL2023_x86_64_STANDARD"
+      kubernetes_version = var.eks_nodegroup_green_version
+      instance_types = ["m5.xlarge"]
+      iam_role_additional_policies  = {
+        amazonEFS = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+        amazonEBS = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+      }
+      
+      # cluster nodes autoscaling
+      min_size     = 2
+      max_size     = 10
+      desired_size = 2
+
+      # taints = {
+      #   upgrade = {
+      #     key = "upgrade"
+      #     value = "true"
+      #     effect = "NO_SCHEDULE"
+      #   }
+      # }
+
+      labels = {
+        nodegroup = "green"
+      }
     }
   }
-      
+
   tags = merge(
     local.common_tags,
     {
-         Name = local.common_name_suffix
+        Name = local.common_name_suffix
     }
   )
-}
-
-      
-
-        
   
+}
