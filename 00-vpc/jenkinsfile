@@ -15,7 +15,7 @@ pipeline {
         ansiColor('xterm')      // prevent parallel runs
     }
 
-    stages {
+    stages { 
         stage('init') {
             steps {
                 script {
@@ -97,4 +97,5 @@ pipeline {
             echo "pipeline will be aborted"
         }
     }
+}
 }
