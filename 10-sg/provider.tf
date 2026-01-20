@@ -6,8 +6,8 @@ terraform {
     }
   }
    backend "s3" {
-    bucket = "my-terra-final"
-    key    = "roboshop-k8-sg"
+    bucket = "terraform-state-bkt-valk"
+    key    = "my-infra-sg"
     region = "us-east-1"
     use_lockfile = true
     encrypt = true
