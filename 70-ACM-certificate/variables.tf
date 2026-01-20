@@ -11,5 +11,5 @@ variable "domain_name" {
 }
 #hosted zone id
 variable "zone_id" {
-    default = "Z0947471149PD4TQ11IOC"
+    default = "Z0370247NKEUF02OSIQ2"
 }
