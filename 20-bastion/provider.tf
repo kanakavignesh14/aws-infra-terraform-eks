@@ -6,7 +6,7 @@ terraform {
     }
   }
    backend "s3" {
-    bucket = "terraform-state-bkt-valk"
+    bucket = "terraform-tata-bucket"
     key    = "my-infra-bastion"
     region = "us-east-1"
     use_lockfile = true

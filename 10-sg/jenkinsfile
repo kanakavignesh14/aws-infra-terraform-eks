@@ -120,7 +120,7 @@ pipeline {
                     }
                 }
 
-                stage('eks') {
+               /* stage('eks') {
                     steps {
                         script {
                            build job: '90-eks-cluster',
@@ -129,7 +129,7 @@ pipeline {
                         }
                            
                     }
-                }
+                } */
 
 
             }

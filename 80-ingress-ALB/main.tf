@@ -3,7 +3,7 @@ resource "aws_lb" "ingress_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [local.ingress-ALB-sg_id]
-  # it should be public subnet ids
+  # it should be public subnet ids ****
   subnets            = local.public_subnet_ids
 
   enable_deletion_protection = false # prevents accidental deletion from UI
