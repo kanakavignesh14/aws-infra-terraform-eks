@@ -74,7 +74,7 @@ pipeline {
             
         }
 
-        stage('Parallel trigger Builds like ACM,SG-RULES,BASTION CALLED DOWNSTREAM JOBS') {
+      /*  stage('Parallel trigger Builds like ACM,SG-RULES,BASTION CALLED DOWNSTREAM JOBS') {
             parallel {
                 stage('sg-ingress-rules') {
                     steps {
@@ -120,7 +120,7 @@ pipeline {
                     }
                 }
 
-               /* stage('eks') {
+                stage('eks') {
                     steps {
                         script {
                            build job: '90-eks-cluster',
@@ -129,7 +129,7 @@ pipeline {
                         }
                            
                     }
-                } */
+                } 
 
 
             }
@@ -145,8 +145,9 @@ pipeline {
                     }
                            
                 }
-            }
-    }
+            }*/
+    } 
+    
 
     post {
         always {
